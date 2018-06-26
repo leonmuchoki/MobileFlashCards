@@ -1,44 +1,56 @@
 import React, { Component} from 'react'
 import { View, FlatList, Text, StyleSheet } from 'react-native'
+
 import { getDecks } from '../utils/api'
-import  { gray,black } from '../utils/colors'
+import { setDummyDataDecks } from '../utils/_decks'
+import  { gray,black,blue } from '../utils/colors'
+import { INTERRUPTION_MODE_ANDROID_DUCK_OTHERS } from 'expo/src/av/Audio';
 
 class Decks extends Component {
 
   state = {
-    decks: {}
+    decks: []
   }
 
   componentDidMount = () => {
-    this.setState(()=>{
-      decks: this.fetchDecksInfo()
-    })
+     this.fetchDecksInfo()
   }
 
   fetchDecksInfo = () => {
     let deckDataRaw = getDecks()
     let deckData = []
-    Object.keys(deckDataRaw).map((deck)=>{
-      let countCards = Object.keys(deckDataRaw[deck]).length;
-      let deck = {deckName: deck, deckCount: countCards}
-      deckData.push(deck)
+    Object.keys(deckDataRaw).map((deck)=> {
+      let countCards = Object.keys(deckDataRaw[deck]).length
+      let deck_o = { deckName: deck, deckCount: countCards }
+      deckData.push(deck_o)
     })
-
+   this.setState({decks: deckData})
   }
 
   render() {
-    const decks = this.state.decks
+    let decks = this.state.decks//this.state.decks
+    if (this.state.decks.length>0) 
+    {
+      //decks.push(this.state.decks)
+    }
+    else {
+      decks.push('hakuna any!')
+    }
+    
     return (
       <View style={styles.container}>
-        <FlatList
+         
+          <FlatList
           data = {decks}
           renderItem = {({item})=>(
             <View style={styles.deckCard}>
-              <Text style={styles.deckName}>item.deckName</Text>
-              <Text style={styles.deckCount}>item.deckCount</Text>
+              <Text style={styles.deckName}>{item.deckName}</Text>
+              <Text style={styles.deckCount}>{item.deckCount} cards</Text>
             </View>
-          )}
-        />
+            )}
+          keyExtractor={(item, index) => index.toString() }
+          /> 
+        
       </View>
     )
   }
@@ -56,12 +68,15 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     width: 300,
     height: 300,
-    padding: 10
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5
   },
   deckName: {
     fontSize: 35,
     textAlign: 'center',
-    color: gray
+    color: blue
   },
   deckCount: {
     fontSize: 25,

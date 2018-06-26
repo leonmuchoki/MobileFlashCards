@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation'
+
 import { Constants } from 'expo'
-import { blue, white }  from './utils/colors'
+import { blue, white, gray }  from './utils/colors'
 import Decks from './components/Decks'
 
 MobiCardStatusBar = ({backgroundColor, ...props}) => {
@@ -12,13 +14,21 @@ MobiCardStatusBar = ({backgroundColor, ...props}) => {
   )
 }
 
+const Tabs = createMaterialTopTabNavigator({
+  Decks: {
+    screen: Decks,
+    navigationOptions: {
+      tabBarLabel: 'DECKS'
+    }
+  }
+})
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MobiCardStatusBar backgroundColor={blue} barStyle="light-content" />
-        <Decks />
+        <MobiCardStatusBar backgroundColor={blue} barStyle="light-content" />       
+        <Tabs />
       </View>
     );
   }
@@ -26,9 +36,6 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1
   },
 });

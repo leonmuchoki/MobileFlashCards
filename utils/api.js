@@ -2,8 +2,18 @@ import { AsyncStorage } from 'react-native'
 import { DECKS_STORAGE_KEY, setDummyDataDecks } from './_decks'
 
 export function getDecks() {
-  let decks = AsyncStorage.getItem(DECKS_STORAGE_KEY)
-  if (decks === null) {
-    return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
-  }
+  let decksData = {}
+  AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((results) => {
+      if (results === null)
+      {
+        AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
+        decksData = setDummyDataDecks()
+      }
+      else {
+        decksData = JSON.parse(results)
+      }
+    })
+
+  return setDummyDataDecks()//decksData
 }
