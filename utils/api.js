@@ -3,17 +3,21 @@ import { DECKS_STORAGE_KEY, setDummyDataDecks } from './_decks'
 
 export function getDecks() {
   let decksData = {}
-  AsyncStorage.getItem(DECKS_STORAGE_KEY)
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
       if (results === null)
       {
+        
         AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
-        decksData = setDummyDataDecks()
+        
+        //alert(JSON.stringify('results is null...' + setDummyDataDecks()))
+        return setDummyDataDecks()
       }
       else {
-        decksData = JSON.parse(results)
+        //alert('result from asynstorage...' + JSON.stringify(results))
+         return JSON.parse(results)
       }
     })
 
-  return setDummyDataDecks()//decksData
+  //return decksData//setDummyDataDecks()//decksData
 }

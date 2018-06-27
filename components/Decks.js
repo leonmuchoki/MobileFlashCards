@@ -1,13 +1,11 @@
 import React, { Component} from 'react'
-import { View, FlatList, Text, StyleSheet } from 'react-native'
+import { View, FlatList, Text, StyleSheet,TouchableOpacity } from 'react-native'
 
 import { getDecks } from '../utils/api'
 import { setDummyDataDecks } from '../utils/_decks'
-import  { gray,black,blue } from '../utils/colors'
-import { INTERRUPTION_MODE_ANDROID_DUCK_OTHERS } from 'expo/src/av/Audio';
+import  { gray,black,blue,lightPurp,white } from '../utils/colors'
 
 class Decks extends Component {
-
   state = {
     decks: []
   }
@@ -17,24 +15,33 @@ class Decks extends Component {
   }
 
   fetchDecksInfo = () => {
-    let deckDataRaw = getDecks()
     let deckData = []
-    Object.keys(deckDataRaw).map((deck)=> {
-      let countCards = Object.keys(deckDataRaw[deck]).length
+    getDecks().then((results)=>{
+      Object.keys(results).map((deck)=> {
+      let countCards = Object.keys(results[deck]).length
       let deck_o = { deckName: deck, deckCount: countCards }
       deckData.push(deck_o)
+      this.setState({decks: deckData})
     })
-   this.setState({decks: deckData})
+  })
   }
 
+  goToDeckView = (deckName, deckCount) => {
+    this.props.navigation.navigate('DeckView', {title: deckName, cardCount: deckCount})
+    //alert('watidatya...')
+  }
+
+
   render() {
-    let decks = this.state.decks//this.state.decks
+    const navigate = this.props.navigation
+
+    let decks = this.state.decks
     if (this.state.decks.length>0) 
     {
       //decks.push(this.state.decks)
     }
     else {
-      decks.push('hakuna any!')
+      decks.push('NO decks added')
     }
     
     return (
@@ -46,9 +53,13 @@ class Decks extends Component {
             <View style={styles.deckCard}>
               <Text style={styles.deckName}>{item.deckName}</Text>
               <Text style={styles.deckCount}>{item.deckCount} cards</Text>
+              <TouchableOpacity style={styles.btnViewDeck} 
+                                onPress={() => this.goToDeckView(item.deckName, item.deckCount)}>
+                <Text style={{color: white}}>VIEW</Text>
+              </TouchableOpacity>
             </View>
             )}
-          keyExtractor={(item, index) => index.toString() }
+          keyExtractor={(item, index) => index.toString() } 
           /> 
         
       </View>
@@ -83,6 +94,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: black,
     marginTop: 10
+  },
+  btnViewDeck: {
+    marginTop: 15,
+    backgroundColor: lightPurp,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    height: 45,
+    borderRadius: 2,
   }
 })
 
