@@ -20,9 +20,10 @@ class Decks extends Component {
       Object.keys(results).map((deck)=> {
       let countCards = Object.keys(results[deck]).length
       let deck_o = { deckName: deck, deckCount: countCards }
-      deckData.push(deck_o)
+      deckData.push(deck_o)   
       this.setState({decks: deckData})
     })
+    
   })
   }
 

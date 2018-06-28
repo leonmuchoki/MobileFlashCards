@@ -4,6 +4,10 @@ import  { gray,black,blue,lightPurp,white } from '../utils/colors'
 
 class DeckView extends Component {
 
+  goToQuiz = (deckName) => {
+    this.props.navigation.navigate('QuestionView', {deckName: deckName})
+  }
+
   render() {
     const { title, cardCount } = this.props.navigation.state.params
     return (
@@ -14,7 +18,7 @@ class DeckView extends Component {
           <TouchableOpacity style={[styles.btnCards, styles.btnCardAdd]}>
             <Text style={{fontSize: 25}}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]}>
+          <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={() => this.goToQuiz(title)}>
             <Text style={{fontSize: 25, color: white}}>Start Quiz</Text>
           </TouchableOpacity>
         </View>

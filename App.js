@@ -6,6 +6,8 @@ import { Constants } from 'expo'
 import { blue, white, purple }  from './utils/colors'
 import Decks from './components/Decks'
 import DeckView from './components/DeckView'
+import NewDeck from './components/NewDeck'
+import QuestionView from './components/QuestionView'
 
 MobiCardStatusBar = ({backgroundColor, ...props}) => {
   return (
@@ -19,7 +21,13 @@ const Tabs = createMaterialTopTabNavigator({
   Decks: {
     screen: Decks,
     navigationOptions: {
-      tabBarLabel: 'DECKS'
+      tabBarLabel: 'DECKS',
+    }
+  },
+  NewDeck: {
+    screen: NewDeck,
+    navigationOptions: {
+      tabBarLabel: 'NEW DECK'
     }
   } 
 },
@@ -55,6 +63,16 @@ const MainNavigator = createStackNavigator({
         backgroundColor: blue,
       },
       title: 'DECK DETAILS'
+    }
+  },
+  QuestionView: {
+    screen: QuestionView,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      title: 'Add Card'
     }
   }
 })

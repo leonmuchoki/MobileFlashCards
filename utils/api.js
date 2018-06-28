@@ -7,17 +7,15 @@ export function getDecks() {
     .then((results) => {
       if (results === null)
       {
-        
         AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
-        
-        //alert(JSON.stringify('results is null...' + setDummyDataDecks()))
         return setDummyDataDecks()
       }
       else {
-        //alert('result from asynstorage...' + JSON.stringify(results))
          return JSON.parse(results)
       }
     })
+}
 
-  //return decksData//setDummyDataDecks()//decksData
+export function setNewDeck(title) {
+  return AsyncStorage.mergeItem(DECKS_STORAGE_KEY,JSON.stringify(title))
 }
