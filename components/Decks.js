@@ -19,11 +19,12 @@ class Decks extends Component {
     getDecks().then((results)=>{
       Object.keys(results).map((deck)=> {
       let countCards = 0//Object.keys(results[deck]).length
-      //alert(JSON.stringify(results[deck]))
+      let deckQuestions = []
       if (results[deck].questions !== undefined) {
         countCards = results[deck].questions.length
+        deckQuestions.push(results[deck].questions)
       }
-      let deck_o = { deckName: deck, deckCount: countCards }
+      let deck_o = { deckName: deck, deckCount: countCards, deckQuestions: deckQuestions}
       deckData.push(deck_o)   
       this.setState({decks: deckData})
     })
@@ -31,8 +32,8 @@ class Decks extends Component {
   })
   }
 
-  goToDeckView = (deckName, deckCount) => {
-    this.props.navigation.navigate('DeckView', {title: deckName, cardCount: deckCount})
+  goToDeckView = (deckName, deckCount, questions) => {
+    this.props.navigation.navigate('DeckView', {title: deckName, cardCount: deckCount, questions: questions})
     //alert('watidatya...')
   }
 
@@ -59,7 +60,7 @@ class Decks extends Component {
               <Text style={styles.deckName}>{item.deckName}</Text>
               <Text style={styles.deckCount}>{item.deckCount} cards</Text>
               <TouchableOpacity style={styles.btnViewDeck} 
-                                onPress={() => this.goToDeckView(item.deckName, item.deckCount)}>
+                                onPress={() => this.goToDeckView(item.deckName, item.deckCount, item.deckQuestions)}>
                 <Text style={{color: white}}>VIEW</Text>
               </TouchableOpacity>
             </View>

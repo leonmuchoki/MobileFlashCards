@@ -4,16 +4,22 @@ import  { gray,black,blue,lightPurp,white } from '../utils/colors'
 
 class DeckView extends Component {
 
-  startQuiz = (deckName) => {
-    //this.props.navigation.navigate('QuestionView', {deckName: deckName})
+  startQuiz = (deckName,cardCount) => {
+    let {questions} = this.props.navigation.state.params
+    this.props.navigation.navigate('Quiz', {deckName: deckName, cardCount: cardCount, questions: questions})
   }
 
   addDeckCard = (deckName) => {
     this.props.navigation.navigate('QuestionView', {deckName: deckName})
   }
 
+  alertNoQuestion = () => {
+    alert('No Card added')
+  }
+
   render() {
-    const { title, cardCount } = this.props.navigation.state.params
+    const { title, cardCount,questions } = this.props.navigation.state.params
+    
     return (
       <View style={styles.container}>
         <Text style={styles.deckTitle}>{title}</Text>
@@ -22,9 +28,15 @@ class DeckView extends Component {
           <TouchableOpacity style={[styles.btnCards, styles.btnCardAdd]} onPress={() => this.addDeckCard(title)}>
             <Text style={{fontSize: 25}}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={() => this.startQuiz(title)}>
-            <Text style={{fontSize: 25, color: white}}>Start Quiz</Text>
-          </TouchableOpacity>
+          {questions.length > 0 
+            ? <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={() => this.startQuiz(title,cardCount)}>
+                <Text style={{fontSize: 25, color: white}}>Start Quiz</Text>
+              </TouchableOpacity>
+            : <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={this.alertNoQuestion}>
+                <Text style={{fontSize: 25, color: white}}>Start Quiz</Text>
+              </TouchableOpacity>
+          }
+          
         </View>
       </View>
     )

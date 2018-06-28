@@ -8,6 +8,7 @@ import Decks from './components/Decks'
 import DeckView from './components/DeckView'
 import NewDeck from './components/NewDeck'
 import QuestionView from './components/QuestionView'
+import Quiz from './components/Quiz'
 
 MobiCardStatusBar = ({backgroundColor, ...props}) => {
   return (
@@ -75,7 +76,16 @@ const MainNavigator = createStackNavigator({
       title: 'Add Card'
     }
   },
-  
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: blue,
+      },
+      title: 'Quiz'
+    }
+  },
 })
 
 export default class App extends React.Component {
