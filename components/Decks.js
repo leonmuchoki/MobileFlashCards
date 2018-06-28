@@ -18,7 +18,11 @@ class Decks extends Component {
     let deckData = []
     getDecks().then((results)=>{
       Object.keys(results).map((deck)=> {
-      let countCards = Object.keys(results[deck]).length
+      let countCards = 0//Object.keys(results[deck]).length
+      //alert(JSON.stringify(results[deck]))
+      if (results[deck].questions !== undefined) {
+        countCards = results[deck].questions.length
+      }
       let deck_o = { deckName: deck, deckCount: countCards }
       deckData.push(deck_o)   
       this.setState({decks: deckData})

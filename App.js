@@ -74,7 +74,8 @@ const MainNavigator = createStackNavigator({
       },
       title: 'Add Card'
     }
-  }
+  },
+  
 })
 
 export default class App extends React.Component {

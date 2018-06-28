@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, StyleSheet, Platform, TextInput, KeyboardAvoidingView, Dimensions } from 'react-native'
 
 import  { gray,black,blue,purple,white } from '../utils/colors'
-import { setNewDeck } from '../utils/api'
+import { addCardToDeck } from '../utils/api'
 
 const window = Dimensions.get('window');
 
@@ -23,9 +23,15 @@ class QuestionView extends Component {
     deckAnswer: ''
   }
 
-  submit = () => {
-    //alert('10 bulls')
-    
+  submit = (deckName) => {
+    //alert('10 bulls ' + deckName)
+    let deck_data = {}
+    let title = this.state.deckQuestion
+    let new_card = {question: this.state.deckQuestion, answer: this.state.deckAnswer}
+    //deck_data[deckName] = {title: deckName, questions: question}
+    addCardToDeck(deckName,new_card)
+    this.setState({deckQuestion: '', deckAnswer: ''})
+    this.props.navigation.navigate('DeckView')
   }
 
   render() {
@@ -33,15 +39,15 @@ class QuestionView extends Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-          <Text style={{ fontSize: 24, marginBottom: 5 }}>{deckName} Question:</Text>     
+          <Text style={{ fontSize: 24, marginBottom: 5 }}> Question:</Text>     
           <TextInput style={styles.deckTitleInput} 
                      value={this.state.deckQuestion} 
                      onChangeText={(text) => this.setState({deckQuestion: text})} />
-          <Text style={{ fontSize: 24, marginBottom: 5 }}>{deckName} Answer:</Text>   
+          <Text style={{ fontSize: 24, marginBottom: 5 }}> Answer:</Text>   
           <TextInput style={styles.deckTitleInput} 
                      value={this.state.deckAnswer} 
                      onChangeText={(text) => this.setState({deckAnswer: text})} /> 
-          <SubmitBtn onPress={this.submit} />
+          <SubmitBtn onPress={() => this.submit(deckName)} />
       </KeyboardAvoidingView>
     )
   }

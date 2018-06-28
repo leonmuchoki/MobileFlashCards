@@ -24,10 +24,10 @@ class NewDeck extends Component {
 
   submit = () => {
     //alert('10 bulls')
-    let title_data = {}
+    let deck_data = {}
     let titleName = this.state.deckName
-    title_data[titleName] = {}
-    setNewDeck(title_data)
+    deck_data[titleName] = {title: titleName, questions: []}
+    setNewDeck(deck_data)
     this.setState({deckName: ''})
     this.props.navigation.navigate('Decks')
   }
