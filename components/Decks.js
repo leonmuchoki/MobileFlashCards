@@ -22,7 +22,8 @@ class Decks extends Component {
       let deckQuestions = []
       if (results[deck].questions !== undefined) {
         countCards = results[deck].questions.length
-        deckQuestions.push(results[deck].questions)
+        //deckQuestions.push(results[deck].questions)
+        deckQuestions = [...deckQuestions,...results[deck].questions]
       }
       let deck_o = { deckName: deck, deckCount: countCards, deckQuestions: deckQuestions}
       deckData.push(deck_o)   

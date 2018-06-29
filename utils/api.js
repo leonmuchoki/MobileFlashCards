@@ -3,10 +3,12 @@ import { DECKS_STORAGE_KEY, setDummyDataDecks } from './_decks'
 
 export function getDecks() {
   let decksData = {}
+  //AsyncStorage.removeItem(DECKS_STORAGE_KEY)
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
-      if (results === null)
+      if (results === null || typeof results !== 'object')
       {
+        AsyncStorage.removeItem(DECKS_STORAGE_KEY)
         AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
         return setDummyDataDecks()
       }
@@ -30,7 +32,8 @@ export function addCardToDeck(deckName,new_card) {
       let thisCard = res[title]
       let questions = []
       if (thisCard.questions !== undefined) {
-        thisCard.questions.push(new_card)
+        //thisCard.questions.push(new_card)
+        thisCard.questions = [...thisCard.questions,...new_card]
         let deck = {}
         deck[title] = thisCard
         return AsyncStorage.mergeItem(DECKS_STORAGE_KEY,JSON.stringify(deck))
