@@ -6,7 +6,7 @@ export function getDecks() {
   //AsyncStorage.removeItem(DECKS_STORAGE_KEY)
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
-      //console.log('api results::getDecks' + JSON.stringify(results))
+      console.log('api results::getDecks' + JSON.stringify(results))
       if (results === null || results === undefined)
       {
         let dummyDecks = setDummyDataDecks()
@@ -39,8 +39,31 @@ export function getDeck(deckName) {
     })
 }
 
-export function setNewDeck(title) {
-  return AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(title), () => {
+export function setNewDeck(deck) {
+  console.log('setNewDeck..' + JSON.stringify(deck))
+  // fetch available decks, append new deck then save new deck
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((results)=>{
+      if (results === undefined) {
+        AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(deck))
+        return deck
+      }
+      else {
+        // has decks...so clear deck and append our new deck
+        let res = JSON.parse(results)
+        res.push(deck)
+        AsyncStorage.removeItem(DECKS_STORAGE_KEY)
+          .then(() => {
+            //insert new data
+            console.log('insert new data...' + JSON.stringify(res))
+            AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(res))
+          })
+      }
+      return deck
+    })
+    
+
+  return AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(deck), () => {
     AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result)=>{
       return JSON.parse(result)
     })
@@ -84,4 +107,3 @@ export function addCardToDeck(deckName,new_card) {
     })
   //return AsyncStorage.mergeItem(DECKS_STORAGE_KEY,JSON.stringify(card))
 }
-

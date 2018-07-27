@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text, StyleSheet, Platform, TextInput, KeyboardAvoidingView, Dimensions } from 'react-native'
+import { connect } from 'react-redux';
+import { View, TouchableOpacity, Text, StyleSheet, Platform, TextInput, 
+         KeyboardAvoidingView, Dimensions 
+       } from 'react-native'
 
 import  { gray,black,blue,purple,white } from '../utils/colors'
 import { setNewDeck } from '../utils/api'
+import { saveDeck } from '../actions/index';
 
 const window = Dimensions.get('window');
 
@@ -27,8 +31,11 @@ class NewDeck extends Component {
     let deck_data = {}
     let titleName = this.state.deckName
     if(titleName !== undefined && titleName !== '') {
-      deck_data[titleName] = {title: titleName, questions: []}
-      setNewDeck(deck_data)
+      deck_data = {title: titleName, questions: []}
+      //setNewDeck(deck_data)
+
+      //dispatch
+      this.props.saveNewDeck(deck_data)
       this.setState({deckName: ''})
       this.props.navigation.navigate('Decks')
     }
@@ -88,4 +95,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NewDeck
+const mapDispatchToProps = dispatch => {
+  return {
+    saveNewDeck: (deck) => dispatch(saveDeck(deck))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewDeck)

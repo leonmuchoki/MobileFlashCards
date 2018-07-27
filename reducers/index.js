@@ -9,9 +9,15 @@ const initialDeckState = {
 export function decks(state=initialDeckState, action) {
   switch(action.type) {
     case ADD_DECK:
+      //console.log('ADD_DECK::' + JSON.stringify(action.deck))
+      let newDeck = []
+      newDeck.push(action.deck)
       return {
         ...state,
-        ...action.deck
+        decks: [
+          ...state.decks,
+          ...newDeck
+        ]
       }
 
     case RECIEVE_DECKS:

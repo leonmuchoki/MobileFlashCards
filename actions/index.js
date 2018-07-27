@@ -6,7 +6,7 @@ export const GET_DECK = 'GET_DECK'
 export const IS_LOADING = 'IS_LOADING'
 export const HAS_ERROR = 'HAS_ERROR'
 
-export function addDeck(deck) {
+export function addDeckSuccess(deck) {
   return {
     type: ADD_DECK,
     deck
@@ -71,6 +71,23 @@ export function fetchDeck(deckName) {
                 .then((data)=> {
                   //console.log('postGetDataSuccess ' + JSON.stringify(data))
                   dispatch(receivedDeck(data))
+                })
+                .catch(()=> dispatch(hasErrored(true)))  
+  }
+}
+
+// save new deck
+export function saveDeck(deck) {
+  return (dispatch) => {
+    dispatch(isLoading(true));
+    DeckAPI.setNewDeck(deck)
+                .then((response)=> {
+                  dispatch(isLoading(false));
+                  return response
+                })
+                .then((data)=> {
+                  //console.log('postGetDataSuccess ' + JSON.stringify(data))
+                  dispatch(addDeckSuccess(data))
                 })
                 .catch(()=> dispatch(hasErrored(true)))  
   }
