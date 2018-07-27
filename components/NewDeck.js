@@ -26,10 +26,13 @@ class NewDeck extends Component {
     //alert('10 bulls')
     let deck_data = {}
     let titleName = this.state.deckName
-    deck_data[titleName] = {title: titleName, questions: []}
-    setNewDeck(deck_data)
-    this.setState({deckName: ''})
-    this.props.navigation.navigate('Decks')
+    if(titleName !== undefined && titleName !== '') {
+      deck_data[titleName] = {title: titleName, questions: []}
+      setNewDeck(deck_data)
+      this.setState({deckName: ''})
+      this.props.navigation.navigate('Decks')
+    }
+    
   }
 
   render() {

@@ -29,9 +29,12 @@ class QuestionView extends Component {
     let title = this.state.deckQuestion
     let new_card = {question: this.state.deckQuestion, answer: this.state.deckAnswer}
     //deck_data[deckName] = {title: deckName, questions: question}
-    addCardToDeck(deckName,new_card)
-    this.setState({deckQuestion: '', deckAnswer: ''})
-    this.props.navigation.navigate('DeckView')
+    addCardToDeck(deckName,new_card).then((results)=>{
+      this.setState({deckQuestion: '', deckAnswer: ''})
+      alert(results)
+      //this.props.navigation.navigate('DeckView', {decks: results})
+    })
+    
   }
 
   render() {

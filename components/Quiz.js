@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import  { gray,black,blue,red,white } from '../utils/colors'
+import { getDeck } from '../utils/api'
 
 class Quiz extends Component {
 
@@ -15,9 +16,14 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    const {questions} = this.props.navigation.state.params
-    let questionsCount = questions.length
-    this.setState({questions: questions, questionsCount: questionsCount, currentQuestionNo: 1})
+    const { questions, deckName } = this.props.navigation.state.params
+    let decks = []
+    getDeck(deckName).then((response)=>{
+      decks.push(response)
+      alert(JSON.stringify(response))
+      let questionsCount = response.questions.length
+      this.setState({questions: response.questions, questionsCount: questionsCount, currentQuestionNo: 1})
+    })
   }
 
   showAnswer = () => {
@@ -44,6 +50,22 @@ class Quiz extends Component {
     this.setState({viewAnswer: false})
   }
 
+  goBackToDeck = () => {
+    this.props.navigation.navigate('Decks')
+  }
+
+  restartQuiz = () => {
+    this.setState({
+      questions: [],
+      questionsCount: 0,
+      currentQuestionNo: 1,
+      viewAnswer: false,
+      goToNextQuestion: false,
+      countCorrect: 0,
+      isLastQuestion: false
+    })
+  }
+
 
   render() {
     const { deckName, cardCount, questions } = this.props.navigation.state.params
@@ -59,6 +81,12 @@ class Quiz extends Component {
         { isLastQuestion === true
           ? <View>
               <Text>You got {countCorrect} / {questionsCount}</Text>
+              <TouchableOpacity style={[styles.btnCards2, styles.btnCardRestart]} onPress={() => this.restartQuiz()}>
+                <Text style={{fontSize: 25}}>Restart Quiz</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.btnCards2, styles.btnCardGoBack]} onPress={() => this.goBackToDeck()}>
+                <Text style={{fontSize: 25,color: white}}>Back to deck</Text>
+              </TouchableOpacity>
             </View> 
           :
             <View>
@@ -125,6 +153,21 @@ const styles = StyleSheet.create({
   },
   btnCardInCorrect: {
     backgroundColor: red
+  },
+  btnCards2: {
+    marginTop: 15,
+    paddingBottom: 20,
+    paddingTop: 20,
+    paddingLeft: 30,
+    paddingRight: 30,
+    height: 65,
+    borderRadius: 2,
+  },
+  btnCardRestart: {
+    backgroundColor: white
+  },
+  btnCardGoBack: {
+    backgroundColor: black
   }
 })
 

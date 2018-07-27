@@ -4,6 +4,11 @@ import  { gray,black,blue,lightPurp,white } from '../utils/colors'
 
 class DeckView extends Component {
 
+  componentDidMount(){
+    const { decks } =  this.props.navigation.state.params
+    //alert(JSON.stringify(decks))
+  }
+
   startQuiz = (deckName,cardCount) => {
     let {questions} = this.props.navigation.state.params
     this.props.navigation.navigate('Quiz', {deckName: deckName, cardCount: cardCount, questions: questions})
@@ -19,7 +24,9 @@ class DeckView extends Component {
 
   render() {
     const { title, cardCount,questions } = this.props.navigation.state.params
-    
+    const { decks } =  this.props.navigation.state.params
+    alert(JSON.stringify(decks))
+
     return (
       <View style={styles.container}>
         <Text style={styles.deckTitle}>{title}</Text>

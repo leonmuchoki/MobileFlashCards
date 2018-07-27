@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store/store';
 import { StyleSheet, Text, View, StatusBar,Platform } from 'react-native'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 
@@ -91,10 +93,12 @@ const MainNavigator = createStackNavigator({
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{flex: 1}}>
-        <MobiCardStatusBar backgroundColor={blue} barStyle="light-content" />       
-        <MainNavigator />
-      </View>
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <MobiCardStatusBar backgroundColor={blue} barStyle="light-content" />       
+          <MainNavigator />
+        </View>
+      </Provider>
     );
   }
 }
