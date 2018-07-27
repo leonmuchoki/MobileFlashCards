@@ -56,8 +56,6 @@ class Quiz extends Component {
 
   restartQuiz = () => {
     this.setState({
-      questions: [],
-      questionsCount: 0,
       currentQuestionNo: 1,
       viewAnswer: false,
       goToNextQuestion: false,
