@@ -26,7 +26,7 @@ class Decks extends Component {
   processDeckInfo = () => {
     let deckData = []
     const decks = this.props.allDecks
-    console.log('processDeckInfo>>> ' + JSON.stringify(deckData))
+    console.log('processDeckInfo>>> ' + JSON.stringify(decks))
     decks.map((deck)=> {
       let countCards = 0//Object.keys(results[deck]).length
       let deckQuestions = []
@@ -37,8 +37,10 @@ class Decks extends Component {
       }
       let deck_o = { deckName: deck.title, deckCount: countCards, deckQuestions: deckQuestions}
       deckData.push(deck_o)   
-      this.setState({decks: deckData})
+      //this.setState({decks: deckData})
     })
+    console.log('<<<<processDeckInfo>>> ' + JSON.stringify(deckData))
+    return deckData
   }
 
   goToDeckView = (deckName, deckCount, questions) => {
@@ -50,34 +52,27 @@ class Decks extends Component {
   render() {
     const navigate = this.props.navigation
 
-    let decks = this.state.decks
+    let decks = this.processDeckInfo()
+
     console.log('render decks..' + JSON.stringify(decks))
-    if (this.state.decks.length>0) 
-    {
-      //decks.push(this.state.decks)
-    }
-    else {
-      decks.push('NO decks added')
-    }
+    
     
     return (
       <View style={styles.container}>
-         
-        <FlatList
-          data = {decks}
-          renderItem = {({item})=>(
-            <View style={styles.deckCard}>
-              <Text style={styles.deckName}>{item.deckName}</Text>
-              <Text style={styles.deckCount}>{item.deckCount} cards</Text>
-              <TouchableOpacity style={styles.btnViewDeck} 
-                                onPress={() => this.goToDeckView(item.deckName, item.deckCount, item.deckQuestions)}>
-                <Text style={{color: white}}>VIEW</Text>
-              </TouchableOpacity>
-            </View>
-            )}
-          keyExtractor={(item, index) => index.toString() } 
-        /> 
-        
+          <FlatList
+            data = {decks}
+            renderItem = {({item})=>(
+              <View style={styles.deckCard}>
+                <Text style={styles.deckName}>{item.deckName}</Text>
+                <Text style={styles.deckCount}>{item.deckCount} cards</Text>
+                <TouchableOpacity style={styles.btnViewDeck} 
+                                  onPress={() => this.goToDeckView(item.deckName, item.deckCount, item.deckQuestions)}>
+                  <Text style={{color: white}}>VIEW</Text>
+                </TouchableOpacity>
+              </View>
+              )}
+            keyExtractor={(item, index) => index.toString() } 
+          /> 
       </View>
     )
   }
@@ -123,7 +118,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  //console.log('mapStateToProps::Decks:state-- ' + JSON.stringify(state.decks))
+  console.log('-------mapStateToProps::Decks:state-- ' + JSON.stringify(state.decks.decks))
    //console.log('mapStateToProps::fetched: ' + allPosts.fetched)
    //alert(JSON.stringify(state))
  

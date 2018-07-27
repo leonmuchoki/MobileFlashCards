@@ -3,6 +3,7 @@ import { DECKS_STORAGE_KEY, setDummyDataDecks } from './_decks'
 
 export function getDecks() {
   let decksData = {}
+  
   //AsyncStorage.removeItem(DECKS_STORAGE_KEY)
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
@@ -74,36 +75,24 @@ export function addCardToDeck(deckName,new_card) {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
       let res = JSON.parse(results)
-      let thisDeck = Object.keys(res)
-        .filter((title)=>(title === deckName))
+      // some cookery :-)
+      let cardToUpdate = res.filter((deck)=>(deck.title === deckName))
+      cardToUpdate[0]["questions"].push(new_card)
       
-      let title = thisDeck[0]
-      let thisCard = res[title]
+      let decksRemoveUpdatedDeck = res.filter((deck)=>(deck.title !== deckName))
+
+      //re-insert updated deck
+      let decksToSave =  [...decksRemoveUpdatedDeck, ...cardToUpdate]
+      decksRemoveUpdatedDeck.push(cardToUpdate)
       
-      let questions = []
-      if (thisCard.questions !== undefined) {
-        //thisCard.questions.push(new_card)
-        
-        let newQstns = {}
-        let mergeCards = thisCard.questions
-        mergeCards.push(new_card)
-        newQstns["questions"] = mergeCards//[...new_card]
-        //alert(JSON.stringify(mergeCards))
-        thisCard.questions = [...thisCard.questions,...new_card]
-        //alert(JSON.stringify(newQstns))
-        let deck = {}
-        deck[title] = newQstns
-        AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(deck))
-                           
-      } else {
-        questions.push(new_card)
-        let newCard = {title: deckName, questions: questions}
-        let newDeck = {}
-        newDeck[title] = newCard
-        AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(newDeck))
-                          
-      }
-      //alert(JSON.stringify(thisCard))
-    })
-  //return AsyncStorage.mergeItem(DECKS_STORAGE_KEY,JSON.stringify(card))
-}
+      //then save to db...
+      //first we clear...then save...naive(mtu hajaiva) way for now aisee :-)
+      AsyncStorage.removeItem(DECKS_STORAGE_KEY)
+          .then(() => {
+            //insert new data
+            console.log('insert updated data...' + JSON.stringify(decksToSave))
+            AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(decksToSave))
+          })
+      return new_card // return card updated...so we can update it in redux reducer
+        }
+  )}

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
-import { ADD_DECK, RECIEVE_DECKS, IS_LOADING, HAS_ERROR, GET_DECK } from '../actions'
+import { ADD_DECK, RECIEVE_DECKS, IS_LOADING, 
+         HAS_ERROR, GET_DECK, ADD_CARD_TO_DECK } from '../actions'
 
 const initialDeckState = {
   decks: []
@@ -20,13 +21,29 @@ export function decks(state=initialDeckState, action) {
         ]
       }
 
-    case RECIEVE_DECKS:
-      //console.log('RECIEVE_DECKS...' + JSON.stringify(action.decks))
+    case ADD_CARD_TO_DECK:
+      let decksAvailable = state.decks
+
+      // some kitchen time...:-)
+      let cardToUpdate = decksAvailable.filter((deck)=>(deck.title === action.deckName))
+      cardToUpdate[0]["questions"].push(action.newCard)
+      
+      let decksRemoveUpdatedDeck = res.filter((deck)=>(deck.title !== action.deckName))
+
+      //re-insert updated deck
+      decksRemoveUpdatedDeck.push(cardToUpdate)
+
       return {
         ...state,
-        decks: [
-          ...state.decks, 
-          ...action.decks]
+        decks: decksRemoveUpdatedDeck
+      }
+
+    case RECIEVE_DECKS:
+      console.log('!!!!RECIEVE_DECKS...' + JSON.stringify(action.decks))
+
+      return {
+        state,
+        decks: [...state.decks,...action.decks]
         }
 
     case GET_DECK:

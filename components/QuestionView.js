@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, StyleSheet, Platform, TextInput, KeyboardAvoidingView, Dimensions } from 'react-native'
 
 import  { gray,black,blue,purple,white } from '../utils/colors'
 import { addCardToDeck } from '../utils/api'
+import { addNewCardDeck } from '../actions/index';
 
 const window = Dimensions.get('window');
 
@@ -29,12 +31,14 @@ class QuestionView extends Component {
     let title = this.state.deckQuestion
     let new_card = {question: this.state.deckQuestion, answer: this.state.deckAnswer}
     //deck_data[deckName] = {title: deckName, questions: question}
-    addCardToDeck(deckName,new_card).then((results)=>{
-      this.setState({deckQuestion: '', deckAnswer: ''})
+    this.props.addNewCard(deckName,new_card)
+    this.setState({deckQuestion: '', deckAnswer: ''})
+    /* addCardToDeck(deckName,new_card).then((results)=>{
+      
       alert(results)
+
       //this.props.navigation.navigate('DeckView', {decks: results})
-    })
-    
+    }) */
   }
 
   render() {
@@ -96,4 +100,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default QuestionView
+const mapDispatchToProps = dispatch => {
+  return {
+    addNewCard: (deckName,new_card) => dispatch(addNewCardDeck(deckName,new_card))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(QuestionView)
