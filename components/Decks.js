@@ -63,7 +63,7 @@ class Decks extends Component {
     return (
       <View style={styles.container}>
          
-          <FlatList
+        <FlatList
           data = {decks}
           renderItem = {({item})=>(
             <View style={styles.deckCard}>
@@ -76,7 +76,7 @@ class Decks extends Component {
             </View>
             )}
           keyExtractor={(item, index) => index.toString() } 
-          /> 
+        /> 
         
       </View>
     )
@@ -127,9 +127,9 @@ const mapStateToProps = (state) => {
    //console.log('mapStateToProps::fetched: ' + allPosts.fetched)
    //alert(JSON.stringify(state))
  
-   return { 
-            allDecks: state.decks.decks
-          }
+  return { 
+          allDecks: state.decks.decks
+        }
  }
 
 const mapDispatchToProps = dispatch => {

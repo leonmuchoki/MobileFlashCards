@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import { ADD_DECK, RECIEVE_DECKS, IS_LOADING, HAS_ERROR } from '../actions'
+import { ADD_DECK, RECIEVE_DECKS, IS_LOADING, HAS_ERROR, GET_DECK } from '../actions'
 
 const initialDeckState = {
   decks: []
@@ -15,13 +15,19 @@ export function decks(state=initialDeckState, action) {
       }
 
     case RECIEVE_DECKS:
-      console.log('RECIEVE_DECKS...' + JSON.stringify(action.decks))
+      //console.log('RECIEVE_DECKS...' + JSON.stringify(action.decks))
       return {
         ...state,
         decks: [
           ...state.decks, 
           ...action.decks]
         }
+
+    case GET_DECK:
+      return {
+        ...state,
+        deck: action.deck
+      }
 
     default:
       return state

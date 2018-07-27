@@ -6,7 +6,8 @@ export function getDecks() {
   //AsyncStorage.removeItem(DECKS_STORAGE_KEY)
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
-      if (results === null || typeof results !== 'object')
+      //console.log('api results::getDecks' + JSON.stringify(results))
+      if (results === null || results === undefined)
       {
         let dummyDecks = setDummyDataDecks()
         AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(dummyDecks))
@@ -21,20 +22,20 @@ export function getDecks() {
 export function getDeck(deckName) {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
-      if (results === null || typeof results !== 'object')
+      let deckz
+      let deck
+      if (results === null || results === undefined)
       {
-        AsyncStorage.removeItem(DECKS_STORAGE_KEY)
-        AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
-        let deckz = setDummyDataDecks()
-        let deck = Object.keys(deckz).filter((deck)=>(deck===deckName))
-        return deckz[deck[0]]
+         AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(setDummyDataDecks()))
+         deckz = setDummyDataDecks()
+         deck = deckz.filter((deck)=>(deck.title===deckName))
       }
       else {
-         let decks = JSON.parse(results)
-         let deck = Object.keys(decks).filter((deck)=>(deck===deckName))
-         return decks[deck[0]]
+         deckz = JSON.parse(results)
+         deck = deckz.filter((deck)=>(deck.title===deckName))
       }
-
+      console.log('api results::getDeck:' + deckName + ' +++' + JSON.stringify(deck))
+      return deck
     })
 }
 
