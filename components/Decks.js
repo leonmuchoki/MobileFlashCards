@@ -1,9 +1,11 @@
 import React, { Component} from 'react'
+import { connect } from 'react-redux';
 import { View, FlatList, Text, StyleSheet,TouchableOpacity } from 'react-native'
 
 import { getDecks } from '../utils/api'
 import { setDummyDataDecks } from '../utils/_decks'
 import  { gray,black,blue,lightPurp,white } from '../utils/colors'
+import { fetchAllDecks } from '../actions/index';
 
 class Decks extends Component {
   state = {
@@ -11,26 +13,32 @@ class Decks extends Component {
   }
 
   componentDidMount = () => {
-     this.fetchDecksInfo()
+     this.props.getDecks()
   }
 
-  fetchDecksInfo = () => {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.allDecks !== this.props.allDecks) {
+      //pre-poluate fields
+      this.processDeckInfo()
+    }
+  }
+
+  processDeckInfo = () => {
     let deckData = []
-    getDecks().then((results)=>{
-      Object.keys(results).map((deck)=> {
+    const decks = this.props.allDecks
+    console.log('processDeckInfo>>> ' + JSON.stringify(deckData))
+    decks.map((deck)=> {
       let countCards = 0//Object.keys(results[deck]).length
       let deckQuestions = []
-      if (results[deck].questions !== undefined) {
-        countCards = results[deck].questions.length
+      if (deck.questions !== undefined) {
+        countCards = deck.questions.length
         //deckQuestions.push(results[deck].questions)
-        deckQuestions = [...deckQuestions,...results[deck].questions]
+        deckQuestions = [...deckQuestions,...deck.questions]
       }
-      let deck_o = { deckName: deck, deckCount: countCards, deckQuestions: deckQuestions}
+      let deck_o = { deckName: deck.title, deckCount: countCards, deckQuestions: deckQuestions}
       deckData.push(deck_o)   
       this.setState({decks: deckData})
     })
-    
-  })
   }
 
   goToDeckView = (deckName, deckCount, questions) => {
@@ -43,6 +51,7 @@ class Decks extends Component {
     const navigate = this.props.navigation
 
     let decks = this.state.decks
+    console.log('render decks..' + JSON.stringify(decks))
     if (this.state.decks.length>0) 
     {
       //decks.push(this.state.decks)
@@ -113,4 +122,20 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Decks
+const mapStateToProps = (state) => {
+  //console.log('mapStateToProps::Decks:state-- ' + JSON.stringify(state.decks))
+   //console.log('mapStateToProps::fetched: ' + allPosts.fetched)
+   //alert(JSON.stringify(state))
+ 
+   return { 
+            allDecks: state.decks.decks
+          }
+ }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getDecks: () => dispatch(fetchAllDecks())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Decks)
