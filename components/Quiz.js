@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import  { gray,black,blue,red,white } from '../utils/colors'
+import  { gray,black,blue,red,white, lightPurp } from '../utils/colors'
 import { getDeck } from '../utils/api'
 import { fetchDeck } from '../actions/index';
 
@@ -98,7 +98,7 @@ class Quiz extends Component {
       count_qstns = questions.length
     }
 
-    console.log('----questions---' + JSON.stringify(questions))
+    //console.log('----questions---' + JSON.stringify(questions))
     return (
       <View style={styles.container}>
         { questions === undefined ?
@@ -107,12 +107,12 @@ class Quiz extends Component {
           </View>
           : 
           <View>
-            <Text style={styles.deckCount}>
-              {currentQuestionNo} / {count_qstns}
-            </Text>
             { isLastQuestion === true
               ? <View>
-                  <Text>You got {countCorrect} / {questionsCount}</Text>
+                  <View style={styles.scoreView}>
+                    <Text style={{textAlign: 'center', fontSize: 23}}>Score</Text>
+                    <Text style={styles.scoreViewText}> {countCorrect} / {questionsCount}</Text>
+                  </View>
                   <TouchableOpacity style={[styles.btnCards2, styles.btnCardRestart]} onPress={() => this.restartQuiz()}>
                     <Text style={{fontSize: 25}}>Restart Quiz</Text>
                   </TouchableOpacity>
@@ -122,8 +122,13 @@ class Quiz extends Component {
                 </View> 
               :
                 <View>
+                  <View style={styles.deckCount}>
+                    <Text style={styles.deckCountText}>
+                      {currentQuestionNo} / {count_qstns}
+                    </Text>
+                  </View>
                   {qstns !== undefined &&
-                    <View>
+                    <View style={styles.viewQuestions}>
                       <Text style={styles.deckQuestion}>{qstns.question}</Text>
                         { viewAnswer === false 
                           ?
@@ -161,19 +166,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  scoreView: {
+    padding: 20
+  },
+  scoreViewText: {
+    color: lightPurp,
+    textAlign: 'center',
+    fontSize: 35
+  },
   deckQuestion: {
     fontSize: 35,
     textAlign: 'center',
     color: blue
   },
+  viewQuestions: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   deckCount: {
+    marginBottom: 20,
+    alignSelf: 'flex-start'
+  },
+  deckCountText: {
     fontSize: 25,
-    textAlign: 'center',
     color: black,
-    marginTop: 10,
-    alignSelf: 'flex-start', 
-    justifyContent: 'flex-start', 
-    alignItems: 'flex-start'
   },
   btnCards: {
     marginTop: 15,
