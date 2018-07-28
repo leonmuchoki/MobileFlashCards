@@ -42,13 +42,11 @@ class DeckView extends Component {
   }
 
   render() {
-    const { title, questions, decks } = this.props.navigation.state.params
     const { deck, isLoading } = this.props
     const deckData = this.updateDeckData()
     
     let cardCount
     if (deckData !== undefined) {
-      //alert(JSON.stringify(deckData[0]["title"]))
       cardCount = deckData["questions"].length
     }
      
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  console.log(':::::mapStateToProps::DECKVIEW::deck::' + JSON.stringify(state.decks.deck))
+  //console.log(':::::mapStateToProps::DECKVIEW::deck::' + JSON.stringify(state.decks.deck))
   return { 
           deck: state.decks.deck,
           decks: state.decks.decks,

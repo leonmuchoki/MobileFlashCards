@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { StyleSheet, Text, View, StatusBar,Platform } from 'react-native'
@@ -14,7 +14,7 @@ import Quiz from './components/Quiz'
 
 MobiCardStatusBar = ({backgroundColor, ...props}) => {
   return (
-    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+    <View style={{backgroundColor, height: Constants.statusBarHeight }}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   )
@@ -36,7 +36,7 @@ const Tabs = createMaterialTopTabNavigator({
 },
 {
   navigationOptions: {
-    header: null
+    swipeEnabled: true//false
   },
   tabBarOptions: {
     activeTintColor: Platform.OS === 'ios' ? blue : white,
@@ -90,7 +90,7 @@ const MainNavigator = createStackNavigator({
   },
 })
 
-export default class App extends React.Component {
+class App extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -108,3 +108,5 @@ const styles = StyleSheet.create({
     flex: 1
   },
 });
+
+export default App

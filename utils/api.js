@@ -4,10 +4,10 @@ import { DECKS_STORAGE_KEY, setDummyDataDecks } from './_decks'
 export function getDecks() {
   //danger....remember to comment
   //AsyncStorage.removeItem(DECKS_STORAGE_KEY)
-  
+
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
-      console.log('api results::getDecks' + JSON.stringify(results))
+      //console.log('api results::getDecks' + JSON.stringify(results))
       if (results === null || results === undefined)
       {
         let dummyDecks = setDummyDataDecks()
@@ -35,13 +35,13 @@ export function getDeck(deckName) {
          deckz = JSON.parse(results)
          deck = deckz.filter((deck)=>(deck.title===deckName))
       }
-      console.log('api results::getDeck:' + deckName + ' +++' + JSON.stringify(deck))
+      //console.log('api results::getDeck:' + deckName + ' +++' + JSON.stringify(deck))
       return deck
     })
 }
 
 export function setNewDeck(deck) {
-  console.log('setNewDeck..' + JSON.stringify(deck))
+  //console.log('setNewDeck..' + JSON.stringify(deck))
   // fetch available decks, append new deck then save new deck
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results)=>{
@@ -56,7 +56,7 @@ export function setNewDeck(deck) {
         AsyncStorage.removeItem(DECKS_STORAGE_KEY)
           .then(() => {
             //insert new data
-            console.log('insert new data...' + JSON.stringify(res))
+            //console.log('insert new data...' + JSON.stringify(res))
             AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(res))
           })
       }
@@ -90,7 +90,7 @@ export function addCardToDeck(deckName,new_card) {
       AsyncStorage.removeItem(DECKS_STORAGE_KEY)
           .then(() => {
             //insert new data
-            console.log('insert updated data...' + JSON.stringify(decksToSave))
+            //console.log('insert updated data...' + JSON.stringify(decksToSave))
             AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(decksToSave))
           })
 

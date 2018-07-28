@@ -54,7 +54,7 @@ export function fetchAllDecks() {
                   return response
                 })
                 .then((data)=> {
-                  console.log('fetchAllDecks ==== ' + JSON.stringify(data))
+                  //console.log('fetchAllDecks ==== ' + JSON.stringify(data))
                   dispatch(recieveDecks(data))
                 })
                 .catch(()=> dispatch(hasErrored(true)))  
@@ -112,7 +112,7 @@ export function addNewCardDeck(deckName,new_card) {
                   return response
                 })
                 .then((data)=> {
-                  console.log('addCardToDeckSuccess... ' + deckName + '----' + JSON.stringify(data))
+                  //console.log('addCardToDeckSuccess... ' + deckName + '----' + JSON.stringify(data))
                   dispatch(addCardToDeckSuccess(data,deckName))
                 })
                 .catch(()=> dispatch(hasErrored(true)))  

@@ -23,25 +23,23 @@ export function decks(state=initialDeckState, action) {
       }
 
     case ADD_CARD_TO_DECK:
-     console.log('!!!!ADD_CARD_TO_DECK...!!...' + JSON.stringify(action.newCard))
       let decksAvailable = state.decks
 
       // some kitchen time...:-)
       let cardToUpdate = decksAvailable.filter((deck)=>(deck.title === action.deckTitle))
-      
       cardToUpdate[0]["questions"].push(action.newCard)
-      console.log('!!!!ADD_CARD_TO_DECK...!!...--cardToUpdate---' + JSON.stringify(cardToUpdate))
+
       let decksRemoveUpdatedDeck = decksAvailable.filter((deck)=>(deck.title !== action.deckTitle))
 
       //re-insert updated deck
       let new_decks = [...decksRemoveUpdatedDeck,...cardToUpdate]
       //decksRemoveUpdatedDeck.push(cardToUpdate)
 
-      console.log('!!!!ADD_CARD_TO_DECK...!!...new_decks----' + JSON.stringify(new_decks))
+      //console.log('!!!!ADD_CARD_TO_DECK...!!...new_decks----' + JSON.stringify(new_decks))
       return Object.assign({}, state, {decks: new_decks, deck: cardToUpdate[0]})
 
     case RECIEVE_DECKS:
-      console.log('!!!!RECIEVE_DECKS...' + JSON.stringify(action.decks))
+      //console.log('!!!!RECIEVE_DECKS...' + JSON.stringify(action.decks))
 
       return {
         state,
