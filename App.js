@@ -4,6 +4,7 @@ import store from './store/store';
 import { StyleSheet, Text, View, StatusBar,Platform } from 'react-native'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 
+import { setLocalNotification, clearLocalNotification, sendImmediateNotification } from './utils/helpers'
 import { Constants } from 'expo'
 import { blue, white, purple }  from './utils/colors'
 import Decks from './components/Decks'
@@ -11,6 +12,7 @@ import DeckView from './components/DeckView'
 import NewDeck from './components/NewDeck'
 import QuestionView from './components/QuestionView'
 import Quiz from './components/Quiz'
+import Settings from './components/Settings'
 
 MobiCardStatusBar = ({backgroundColor, ...props}) => {
   return (
@@ -32,7 +34,13 @@ const Tabs = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'NEW DECK'
     }
-  } 
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      tabBarLabel: 'SETTINGS'
+    }
+  }, 
 },
 {
   navigationOptions: {
@@ -91,6 +99,12 @@ const MainNavigator = createStackNavigator({
 })
 
 class App extends Component {
+  componentDidMount () {
+    //clearLocalNotification()
+    setLocalNotification()
+    //sendImmediateNotification()
+  }
+
   render() {
     return (
       <Provider store={store}>

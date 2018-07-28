@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native'
 import  { gray,black,blue,red,white, lightPurp } from '../utils/colors'
 import { getDeck } from '../utils/api'
 import { fetchDeck } from '../actions/index';
+
+const NOTIFICATION_KEY = 'FlashCards:notifications'
 
 class Quiz extends Component {
 
@@ -63,6 +65,13 @@ class Quiz extends Component {
     } else {
       newQuestionNo = questionsCount
       boolIsLast = true
+      // update quiz taken today to avoid sending notifaction
+      const quizNotif = {
+        isQuizTaken: true,
+        todayDate: new Date()
+      }
+
+      AsyncStorage.mergeItem(NOTIFICATION_KEY, JSON.stringify(quizNotif))
     }
     this.setState({currentQuestionNo: newQuestionNo,viewAnswer: false, countCorrect: count_correct, isLastQuestion: boolIsLast})
   }
@@ -172,7 +181,8 @@ const styles = StyleSheet.create({
   scoreViewText: {
     color: lightPurp,
     textAlign: 'center',
-    fontSize: 35
+    fontSize: 35,
+    fontWeight: "500"
   },
   deckQuestion: {
     fontSize: 35,
