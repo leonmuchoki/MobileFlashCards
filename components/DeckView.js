@@ -7,10 +7,25 @@ import { fetchDeck } from '../actions/index';
 
 class DeckView extends Component {
 
+  state = {
+    deck: []
+  }
+
   componentDidMount(){
     const { title } =  this.props.navigation.state.params
-    //alert(JSON.stringify(decks))
     this.props.getDeck(title)
+    this.updateDeckData()
+    //console.log('DeckView::componentDidMount:::::::::::::::')
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.deck !== this.props.deck) {
+      this.updateDeckData()
+    }
+  }
+
+  updateDeckData = () => {
+    return this.props.deck
   }
 
   startQuiz = (deckName,cardCount) => {
@@ -29,30 +44,30 @@ class DeckView extends Component {
   render() {
     const { title, questions, decks } = this.props.navigation.state.params
     const { deck, isLoading } = this.props
-    const deckData = deck
+    const deckData = this.updateDeckData()
+    
     let cardCount
-    if (deck !== undefined) {
+    if (deckData !== undefined) {
       //alert(JSON.stringify(deckData[0]["title"]))
-      cardCount = deckData[0]["questions"].length
+      cardCount = deckData["questions"].length
     }
      
-    //alert(JSON.stringify(decks))
-
+    //console.log('+++++deckData+++++' + JSON.stringify(deckData))
     return (
       <View style={styles.container}>
         {isLoading === false 
           ? 
           <View>
-          {deck !== undefined &&
+          {deckData !== undefined &&
             <View>
-              <Text style={styles.deckTitle}>{deckData[0]["title"]}</Text>
+              <Text style={styles.deckTitle}>{deckData["title"]}</Text>
               <Text style={styles.deckCount}>{cardCount} cards</Text>
               <View style={{marginTop: 150}}>
-                <TouchableOpacity style={[styles.btnCards, styles.btnCardAdd]} onPress={() => this.addDeckCard(deckData[0]["title"])}>
+                <TouchableOpacity style={[styles.btnCards, styles.btnCardAdd]} onPress={() => this.addDeckCard(deckData["title"])}>
                   <Text style={{fontSize: 25}}>Add Card</Text>
                 </TouchableOpacity>
-                { deckData[0]["questions"] !== undefined && deckData[0]["questions"].length > 0 
-                  ? <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={() => this.startQuiz(deckData[0]["title"],cardCount)}>
+                { deckData["questions"] !== undefined && deckData["questions"].length > 0 
+                  ? <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={() => this.startQuiz(deckData["title"],cardCount)}>
                       <Text style={{fontSize: 25, color: white}}>Start Quiz</Text>
                     </TouchableOpacity>
                   : <TouchableOpacity style={[styles.btnCards, styles.btnCardQuiz]} onPress={this.alertNoQuestion}>
@@ -109,9 +124,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  console.log('mapStateToProps::DECKVIEW::' + JSON.stringify(state))
+  console.log(':::::mapStateToProps::DECKVIEW::deck::' + JSON.stringify(state.decks.deck))
   return { 
           deck: state.decks.deck,
+          decks: state.decks.decks,
           isLoading: state.isLoading,
           hasError: state.hasError,
         }

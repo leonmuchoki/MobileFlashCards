@@ -26,7 +26,7 @@ class Decks extends Component {
   processDeckInfo = () => {
     let deckData = []
     const decks = this.props.allDecks
-    console.log('processDeckInfo>>> ' + JSON.stringify(decks))
+    //console.log('processDeckInfo>>> ' + JSON.stringify(decks))
     decks.map((deck)=> {
       let countCards = 0//Object.keys(results[deck]).length
       let deckQuestions = []
@@ -39,7 +39,7 @@ class Decks extends Component {
       deckData.push(deck_o)   
       //this.setState({decks: deckData})
     })
-    console.log('<<<<processDeckInfo>>> ' + JSON.stringify(deckData))
+    //console.log('<<<<processDeckInfo>>> ' + JSON.stringify(deckData))
     return deckData
   }
 
@@ -54,7 +54,7 @@ class Decks extends Component {
 
     let decks = this.processDeckInfo()
 
-    console.log('render decks..' + JSON.stringify(decks))
+    //console.log('render decks..' + JSON.stringify(decks))
     
     
     return (
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  console.log('-------mapStateToProps::Decks:state-- ' + JSON.stringify(state.decks.decks))
+  //console.log('-------mapStateToProps::Decks:state-- ' + JSON.stringify(state.decks.decks))
    //console.log('mapStateToProps::fetched: ' + allPosts.fetched)
    //alert(JSON.stringify(state))
  

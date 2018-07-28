@@ -112,7 +112,7 @@ export function addNewCardDeck(deckName,new_card) {
                   return response
                 })
                 .then((data)=> {
-                  //console.log('postGetDataSuccess ' + JSON.stringify(data))
+                  console.log('addCardToDeckSuccess... ' + deckName + '----' + JSON.stringify(data))
                   dispatch(addCardToDeckSuccess(data,deckName))
                 })
                 .catch(()=> dispatch(hasErrored(true)))  

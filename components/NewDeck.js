@@ -36,7 +36,7 @@ class NewDeck extends Component {
 
       //dispatch
       this.props.saveNewDeck(deck_data)
-      this.setState({deckName: ''})
+      //this.setState({deckName: ''})
       this.props.navigation.navigate('Decks')
     }
     

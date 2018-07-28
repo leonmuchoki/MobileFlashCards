@@ -2,9 +2,9 @@ import { AsyncStorage } from 'react-native'
 import { DECKS_STORAGE_KEY, setDummyDataDecks } from './_decks'
 
 export function getDecks() {
-  let decksData = {}
-  
+  //danger....remember to comment
   //AsyncStorage.removeItem(DECKS_STORAGE_KEY)
+  
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
       console.log('api results::getDecks' + JSON.stringify(results))
@@ -93,6 +93,7 @@ export function addCardToDeck(deckName,new_card) {
             console.log('insert updated data...' + JSON.stringify(decksToSave))
             AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(decksToSave))
           })
-      return new_card // return card updated...so we can update it in redux reducer
-        }
+
+      return new_card//new_card // return card updated...so we can update it in redux reducer
+      }
   )}
