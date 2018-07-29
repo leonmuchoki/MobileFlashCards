@@ -15,7 +15,7 @@ function SubmitBtn ({ onPress }) {
     <TouchableOpacity
       style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
       onPress={onPress}>
-        <Text style={styles.submitBtnText}>SUBMIT</Text>
+        <Text style={styles.submitBtnText}>Create Deck</Text>
     </TouchableOpacity>
   )
 }
@@ -36,8 +36,9 @@ class NewDeck extends Component {
 
       //dispatch
       this.props.saveNewDeck(deck_data)
-      //this.setState({deckName: ''})
-      this.props.navigation.navigate('Decks')
+      this.setState({deckName: ''})
+      //this.props.navigation.navigate('Decks')
+      this.props.navigation.navigate('DeckView', {title: titleName, isNewDeck: true})
     }
     
   }

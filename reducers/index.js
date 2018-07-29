@@ -12,15 +12,9 @@ export function decks(state=initialDeckState, action) {
   switch(action.type) {
     case ADD_DECK:
       //console.log('ADD_DECK::' + JSON.stringify(action.deck))
-      let newDeck = []
-      newDeck.push(action.deck)
-      return {
-        ...state,
-        decks: [
-          ...state.decks,
-          ...newDeck
-        ]
-      }
+      let newDecks = state.decks
+      newDecks.push(action.deck)
+      return Object.assign({}, state, { decks: newDecks, deck: action.deck})
 
     case ADD_CARD_TO_DECK:
       let decksAvailable = state.decks

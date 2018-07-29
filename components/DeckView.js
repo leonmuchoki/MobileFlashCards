@@ -12,9 +12,11 @@ class DeckView extends Component {
   }
 
   componentDidMount(){
-    const { title } =  this.props.navigation.state.params
-    this.props.getDeck(title)
-    this.updateDeckData()
+    const { title, isNewDeck } =  this.props.navigation.state.params
+    if (isNewDeck === undefined) {
+      this.props.getDeck(title)
+      this.updateDeckData()
+    }
     //console.log('DeckView::componentDidMount:::::::::::::::')
   }
 

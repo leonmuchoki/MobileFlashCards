@@ -78,7 +78,7 @@ export function fetchDeck(deckName) {
                   return response
                 })
                 .then((data)=> {
-                  //console.log('postGetDataSuccess ' + JSON.stringify(data))
+                  //console.log('receivedDeck ' + JSON.stringify(data))
                   dispatch(receivedDeck(data))
                 })
                 .catch(()=> dispatch(hasErrored(true)))  
