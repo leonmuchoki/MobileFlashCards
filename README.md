@@ -1,12 +1,3 @@
-### Mobile FlashCards React-Native App
-
-## installation 
-- npm install
-- npm start or yarn start
-
-## platform tested
-- Android - using expo app
-
 # Mobile FlashCards App
 
 Create mobile flash cards. View flash cards and take quizzes. Also get scores and local notification reminders at a certain time of day if you have not taken any quiz.
@@ -39,6 +30,8 @@ Emulator or Expo App
 You can scan the qr code generated from your Expo app to open. 
 ```
 
+## platform 
+Tested on Android
 
 ## Deployment
 
